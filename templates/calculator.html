@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "url": "https://IITH-GPA-Calculator.com",
+        "name": "IIT Hyderabad GPA Calculator",
+        "logo": "{{ url_for('static', filename='WEB.png') }}",
+        "image": "{{ url_for('static', filename='WEB.png') }}"
+    }
+    </script>
+
+    <!-- Open Graph Tags for Social Sharing -->
+    <meta property="og:image" content="{{ url_for('static', filename='WEB.png') }}">
+    <meta property="og:title" content="IIT Hyderabad GPA Calculator">
+    <meta property="og:description" content="Official SGPA/CGPA calculator for IIT Hyderabad students">
+    
+    <!-- Meta Info -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[IITH] GPA Calculator</title>
+    <link rel="icon" href="{{ url_for('static', filename='WEB.png') }}" type="image/png">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Home Page -->
+    <div class="container active-page" id="home-page">
+        <div class="header">
+            <img src="{{ url_for('static', filename='iit-hyderabad-logo.png') }}" alt="IIT Hyderabad Logo" class="logo">
+            <h1 class="main-title">GPA Calculator</h1>
+        </div>
+        <div class="home-buttons">
+            <button onclick="showPage('sgpa')">SGPA Calculator</button>
+            <button onclick="showPage('cgpa')">CGPA Calculator</button>
+        </div>
+    </div>
+
+    <!-- SGPA Page -->
+    <div class="container" id="sgpa-page">
+        <button class="back-button" onclick="showPage('home')">← Back</button>
+        <div class="header">
+            <img src="{{ url_for('static', filename='iit-hyderabad-logo.png') }}" alt="IIT Hyderabad Logo" class="logo">
+            <h1 class="main-title">SGPA Calculator</h1>
+        </div>
+        <div class="calculator-section">
+            <select id="semester">
+                {% for i in range(1, 9) %}
+                    <option value="{{ i }}">Semester {{ i }}</option>
+                {% endfor %}
+            </select>
+            <div id="sgpa-courses"></div>
+            <button onclick="addCourse('sgpa')">+ Add Course</button>
+            <button onclick="calculateSGPA()">Calculate SGPA</button>
+            <div id="sgpa-result" class="result"></div>
+        </div>
+        <div class="grade-table">
+            <table>
+                <tr>
+                    <th>A+/A</th><th>A-</th><th>B</th><th>B-</th><th>C</th><th>C-</th><th>D</th><th>P</th><th>S/U</th><th>AU</th><th>F</th>
+                </tr>
+                <tr>
+                    <td>10</td><td>9</td><td>8</td><td>7</td><td>6</td><td>5</td><td>4</td><td>2</td><td>0</td><td>0</td><td>0</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- CGPA Page -->
+    <div class="container" id="cgpa-page">
+        <button class="back-button" onclick="showPage('home')">← Back</button>
+        <div class="header">
+            <img src="{{ url_for('static', filename='iit-hyderabad-logo.png') }}" alt="IIT Hyderabad Logo" class="logo">
+            <h1 class="main-title">CGPA Calculator</h1>
+        </div>
+        <div class="calculator-section">
+            <div class="previous-inputs">
+                <input type="number" step="0.01" id="previous-cgpa" placeholder="Previous CGPA (if any)">
+                <input type="number" id="previous-credits" placeholder="Previous Credits (if any)">
+            </div>
+            <div id="cgpa-semesters"></div>
+            <button onclick="addSemester()">+ Add Semester</button>
+            <button onclick="calculateCGPA()">Calculate CGPA</button>
+            <div id="cgpa-result" class="result"></div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
